@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Example'
-copyright = 'workshop participant'
-author = 'workshop participant'
+project = 'SDSA Documentation'
+copyright = 'Simeon Wetzel'
+author = 'Simeon Wetzel'
 release = '0.1'
 
 
