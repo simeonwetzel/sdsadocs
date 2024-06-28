@@ -1,14 +1,12 @@
 # Overview
 
-## Background
+## What is SDSA?
 
-Exciting documentation in here.
-Let's make a list (empty surrounding lines required):
+SDSA (Spatial Data Search Assistant) is a server-based application designed to facilitate the development of an advanced search system for geospatial data. Leveraging cutting-edge Large Language Models (LLMs), it enables a search capability that surpasses conventional methods found in metadata catalogs. The application features four essential modules, each fulfilling distinct functions crucial for delivering high-quality retrieval:
 
-- item 1
+- Indexing Module
+- Retrieval Module
+- Search Criteria Module
+- Answer Generation Module
 
-  - nested item 1
-  - nested item 2
-
-- item 2
-- item 3
+These modules collectively empower SDSA to efficiently index, retrieve, apply search criteria, and generate accurate answers, thereby enhancing the overall search experience for geospatial data.
