@@ -10,6 +10,7 @@ Welcome to the SDSA documentation!
    :maxdepth: 3
    :caption: Contents:
 
-   some-feature.md
-   another-feature.md
+   overview.md
+   architecture.md
       indexing-module.md
+      
