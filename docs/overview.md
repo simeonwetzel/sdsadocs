@@ -31,7 +31,7 @@ So far, the following `connectors` are implemented:
 | Pygeoapi connector     | Can read collections from a [pygeoapi](https://pygeoapi.io/) instance.                                                                                                                                                                                                                            | [Source](https://github.com/52North/innovation-prize/blob/dev/search-app/server/connectors/pygeoapi_retriever.py) |
 | Concept Store connector | Can connect to taxonomies, controlled vocabularies, and ontologies (e.g., [GCMD](https://gcmd.earthdata.nasa.gov/KeywordViewer/) or [GEMET](https://www.eionet.europa.eu/gemet/en/about/)) that provide an RDF/SPARQL endpoint. This connector allows concepts and related terms (e.g., broader/narrower terms) to be loaded into the vector database. It enables finding semantically similar terms for potential search queries, so users do not need to interact directly with a SPARQL interface. | [Source](#concept-store-connector) |
 
-### Indexer
+#### Indexer
 
 The `Indexer` class is responsible for creating and managing embeddings of documents for efficient retrieval and loading them into a vector database. It utilizes the LangChain library for embedding and indexing operations. The `Indexer` class is used by both the **Indexing Module** to load documents into the vector database and the **Retrieval Module** to retrieve documents based on queries.
 
