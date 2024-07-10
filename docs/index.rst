@@ -12,3 +12,4 @@ Welcome to the SDSA documentation!
 
    some-feature.md
    another-feature.md
+      indexing-module.md
