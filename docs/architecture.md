@@ -1,4 +1,4 @@
-## Architecture
+## Modules
 
 <img width="80%" height="80%" alt="Server_Architecture" src="https://github.com/simeonwetzel/sdsadocs/assets/90314129/7d2ec2c8-6ecd-4ee5-817c-d7d981003713">
 
