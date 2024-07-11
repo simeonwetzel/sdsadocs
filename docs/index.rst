@@ -11,4 +11,4 @@ Welcome to the SDSA documentation!
    :caption: Contents:
 
    overview.md
-      
+   architecture.md
