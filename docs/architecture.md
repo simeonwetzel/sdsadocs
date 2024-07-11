@@ -85,7 +85,36 @@ curl -X POST \
     "input": "Precipitation"
 }'
 ```
+
 ### Search Criteria and Answer Generation Modules
+
 #### Search Criteria Module
+
+The Search Criteria Module is designed to handle user inputs in a chat-bot manner, assisting users in finding geospatial data. It extracts search criteria from user inputs and can generate follow-up questions if the provided information is insufficient. The module uses a state graph to manage the flow of user interactions and determine the necessary actions to refine the search criteria.
+
 #### Answer Generation Module
+The Answer Generation Module uses the refined search criteria and retrieved documents to generate contextual answers for user queries. It leverages a combination of retrieval and language generation techniques to provide accurate and useful responses.
+
+##### State Graph
+
+The `SpatialRetrieverGraph` class orchestrates the flow of user interactions and processes search criteria. Here are the key nodes and their functions within the graph. The module column shows which of the modules the nodes belong to:
+
+| Node                  | Description                                                                                                     | Module                   |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------|--------------------------|
+| decide_if_data_search | Determines if the user query is related to data search or off-topic.                                            | [Search Criteria Module](#search-criteria-module)   |
+| early_end             | Ends the interaction if the query is off-topic.                                                                 | [Answer Generation Module](#answer-generation-module)   |
+| process_query         | Processes the user query to extract initial search criteria.                                                    | [Search Criteria Module](#search-criteria-module)   |
+| temporal_parser       | Checks if a temporal dimension is necessary for the search.                                                     | [Search Criteria Module](#search-criteria-module)   |
+| analyze_search_dict   | Analyzes the search criteria to determine if sufficient information is available for retrieval.                 | [Search Criteria Module](#search-criteria-module)   |
+| follow_up_gen         | Generates follow-up questions if more information is needed.                                                    | [Answer Generation Module](#answer-generation-module) |
+| search                | Initiates the search in the vector database using the refined search criteria.                                  | [Retrieval Module](#retrieval-module) |
+| final_answer          | Generates the final answer based on the retrieved documents.                                                    | [Answer Generation Module](#answer-generation-module) |
+
+
+See the complete graph workflow here:
+
+![current_workflow](https://github.com/simeonwetzel/sdsadocs/assets/90314129/412b35a6-7fa1-48ae-a284-283c18fde915)
+
+
+
 
