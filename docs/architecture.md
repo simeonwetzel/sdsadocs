@@ -2,13 +2,14 @@
 
 <img width="80%" height="80%" alt="Server_Architecture" src="https://github.com/simeonwetzel/sdsadocs/assets/90314129/7d2ec2c8-6ecd-4ee5-817c-d7d981003713">
 
-### Indexing Module
+### Indexing Module and Retrieval Module
 
+#### Indexing Module
 This module integrates external resources and prepares the collected data for loading into a vector database. It consists of connectors and an indexer. The connectors are abstract Python classes designed to gather data from external sources and format it into a structured format using [LangChain Documents](https://api.python.langchain.com/en/latest/documents/langchain_core.documents.base.Document.html). This structured data is then used by the indexer, which creates embeddings from the documents and loads them into the vector database.
 
 Each connector is specific to a particular type of data resource (e.g., a geojson/OSM connector for reading OSM-type geojsons). Therefore, there is a unique connector for each resource type. In contrast, the indexer is generic and can handle the outputs from all connectors, meaning only one indexer is needed for all connectors.
 
-#### Connectors
+##### Connectors
 
 So far, the following `connectors` are implemented:
 
@@ -18,18 +19,18 @@ So far, the following `connectors` are implemented:
 | Pygeoapi connector     | Can read collections from a [pygeoapi](https://pygeoapi.io/) instance.                                                                                                                                                                                                                            | [Source](https://github.com/52North/innovation-prize/blob/dev/search-app/server/connectors/pygeoapi_retriever.py) |
 | Concept Store connector | Can connect to taxonomies, controlled vocabularies, and ontologies (e.g., [GCMD](https://gcmd.earthdata.nasa.gov/KeywordViewer/) or [GEMET](https://www.eionet.europa.eu/gemet/en/about/)) that provide an RDF/SPARQL endpoint. This connector allows concepts and related terms (e.g., broader/narrower terms) to be loaded into the vector database. It enables finding semantically similar terms for potential search queries, so users do not need to interact directly with a SPARQL interface. | [Source](#concept-store-connector) |
 
-#### Indexer
+#### Indexer Class
 
 The `Indexer` class is responsible for creating and managing embeddings of documents for efficient retrieval and loading them into a vector database. It utilizes the LangChain library for embedding and indexing operations. The `Indexer` class is used by both the **Indexing Module** to load documents into the vector database and the **Retrieval Module** to retrieve documents based on queries.
 
-#### Key Features
+##### Key Features
 
 - **Embeddings**: Supports both [GPT-4 All](https://www.nomic.ai/gpt4all) and [HuggingFace](https://huggingface.co/) models for generating embeddings from documents. The default model is `nomic-ai/nomic-embed-text-v1.5-GGUF` by [Nomic AI](https://www.nomic.ai/). Any other embedding model available via HuggingFace can also be used. To use a HuggingFace model, set the `use_hf_model` flag to `true` and specify the model name with the `embedding_model` parameter (e.g., `embedding_model='sentence-transformers/all-MiniLM-L6-v2'`).
 - **Vector Storage**: Uses [ChromaDB](https://docs.trychroma.com/) for storing and managing vectors persistently.
 - **Record Management**: Integrates with an SQLRecordManager for efficient indexing and retrieval operations, maintaining a schema in a local SQLite database.
 - **Document Retrieval**: Provides a flexible retriever for similarity searches with configurable parameters for the number of results (`k`) and score threshold.
 
-#### Usage
+##### Usage
 
 The `Indexer` class offers several methods to interact with the indexed data:
 
@@ -38,7 +39,7 @@ The `Indexer` class offers several methods to interact with the indexed data:
 - `_get_doc_by_id(_id: str)`: Retrieves a document by its ID.
 - `_delete_doc_from_index(_id: str)`: Deletes a document from the index and updates the record manager accordingly.
 
-#### Example Initialization
+##### Example Initialization
 
 ```python
 from your_module import Indexer  # Replace with your actual module path
@@ -55,14 +56,14 @@ indexer = Indexer(
 
 :information_source: The score_threshold argument sets the minimum relevance score that documents must have to be retrieved for a query. Only documents with a relevance score above this threshold will be returned.
 
-### Retrieval Module
+#### Retrieval Module
 The Retrieval Module uses the Indexer class to retrieve documents from the vector database based on user queries. It enables contextual retrieval through dense retrieval techniques, ensuring relevant documents are fetched efficiently.
 
-Endpoints
+##### Endpoints
 Each index created by the Indexing Module can be accessed through specific retrieval endpoints. These endpoints are dynamically created based on the available indexes.
 This setup ensures that each index can be queried individually, providing a flexible and scalable retrieval mechanism.
 
-Example Usage
+##### Example Usage
 Below is an example of how to set up the retrieval endpoints:
 ```python
 # Create a dictionary of indexes
@@ -84,4 +85,7 @@ curl -X POST \
     "input": "Precipitation"
 }'
 ```
+### Search Criteria and Answer Generation Modules
+#### Search Criteria Module
+#### Answer Generation Module
 
