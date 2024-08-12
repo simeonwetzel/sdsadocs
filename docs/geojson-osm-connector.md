@@ -114,7 +114,7 @@ _osm_type: way"""
 As the feature category is not described verbosely in OSM-features (e.g. `"building": "church"`), the connector provides functionality to fetch tag descriptions from the [OSM-Wiki](https://wiki.openstreetmap.org/wiki/Main_Page) and use the fetched description to enrich the text description:
 - `_get_osm_tag_description_async`: Fetches descriptions for OSM tags from the OpenStreetMap wiki.
 
-As shown in the above example: the `"building": "church"` is enriched to "**Description**: A building that was built as a church. It includes cases where building is no longer used for original purpose."
+As shown in the above example: the `"building": "church"` is enriched to `"**Description**: A building that was built as a church. It includes cases where building is no longer used for original purpose."`
 
 ### 3. Generating Documents
 
