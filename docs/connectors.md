@@ -136,7 +136,7 @@ a. Individual Feature Documents:
    - Includes the feature name, description, and all properties.
    - Useful for queries about specific places.
      
-*Example search for a single feature: in this case "Frauenkirche in Dresden"*:
+*Example search for a feature stored in a individual feature document: in this case "Frauenkirche in Dresden"*:
 ![image](https://github.com/user-attachments/assets/8d2561ca-23be-471c-ac6d-cd342b8a871d)
 
 
@@ -145,7 +145,7 @@ b. Feature Collection Documents:
    - Includes a description of the tag and a count of features.
    - Useful for queries about types of places.
 
-*Example search for multiple features based on a similar category: in this case "Hospitals in Dresden*:
+*Example search for features that share a similar category and are stored in a feature collection document: in this case "Hospitals in Dresden*:
 ![image](https://github.com/user-attachments/assets/e102bc68-8cf0-4e29-8f8b-8246a1a9753e)
 
 
