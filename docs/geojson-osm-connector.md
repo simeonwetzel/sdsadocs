@@ -11,8 +11,7 @@ The process involves the following main steps:
 3. Generating two types of documents:
    a. Individual feature documents
    b. Feature collection documents
-4. Loading documents into a vector store
-5. Implementing the semantic search
+4. Loading documents into a vector store and implementing the semantic search
 
 ## Detailed Steps
 
@@ -55,8 +54,7 @@ This initialization will filter out features where the `building` tag is just `y
 To enable semantic search on OSM features, it's essential to generate meaningful textual representations (embeddings) for the features. This requires converting the structured metadata from the OSM features into unstructured text documents, which can then be passed to an [embedding model](https://huggingface.co/docs/chat-ui/configuration/embeddings).
 
 #### Understanding OSM Features
-
-OSM features are represented using key-value pairs, with most of the semantic information stored in the `tags` key. For example:
+OSM features are represented using key-value pairs, with most of the semantic information stored in the `tags` key. Here's an example of a feature's tags:
 
 ```json
 "tags": {
@@ -81,10 +79,9 @@ OSM features are represented using key-value pairs, with most of the semantic in
     "year_of_construction": "1726 - 1743 / 2005"
 }
 ```
+**Creating Text Documents for Embeddings**
 
-To generate embeddings, a text document needs to be prepared by extracting and organizing the information from these tags key-value pairs.
-
-For instance:
+To generate embeddings, we need to transform these key-value pairs into a structured text document. Here's an example of how this might look:
 ```python
 feature_doc = """
 **Name**: Frauenkirche
@@ -109,12 +106,25 @@ wikimedia_commons: Category:Frauenkirche (Dresden)
 wikipedia: de:Frauenkirche (Dresden)
 year_of_construction: 1726 - 1743 / 2005
 _osm_type: way"""
-
 ```
-As the feature category is not described verbosely in OSM-features (e.g. `"building": "church"`), the connector provides functionality to fetch tag descriptions from the [OSM-Wiki](https://wiki.openstreetmap.org/wiki/Main_Page) and use the fetched description to enrich the text description:
-- `_get_osm_tag_description_async`: Fetches descriptions for OSM tags from the OpenStreetMap wiki.
 
-As shown in the above example: the `"building": "church"` is enriched to `"**Description**: A building that was built as a church. It includes cases where building is no longer used for original purpose."`
+**Enhancing Feature Descriptions**:
+
+OSM features often use concise tags (e.g., `"building": "church"`) that lack detailed descriptions. To enrich these descriptions, our connector provides functionality to fetch more verbose explanations from the [OSM-Wiki](https://wiki.openstreetmap.org/wiki/Main_Page).
+
+**Key Method** `_get_osm_tag_description_async`:
+
+This asynchronous method fetches detailed descriptions for OSM tags from the OpenStreetMap wiki. It's designed for efficiency, allowing quick retrieval of multiple tag descriptions.
+*How it works*:
+1. It uses the `tag_name` parameter (specified when instantiating the connector) to determine which tags need descriptions.
+2. For each relevant tag, it queries the OSM Wiki asynchronously.
+3. It then incorporates the fetched descriptions into the feature's text document.
+   
+*Example Transformation*:
+- Original tag: "building": "church"
+- Enhanced description: `"**Description**: A building that was built as a church. It includes cases where the building is no longer used for its original purpose."` ([Source](https://wiki.openstreetmap.org/wiki/Tag:building%3Dchurch))
+
+This enrichment process significantly improves the semantic quality of the feature descriptions, making them more suitable for accurate embeddings and effective semantic search.
 
 ### 3. Generating Documents
 
@@ -132,49 +142,7 @@ b. Feature Collection Documents:
 
 The `_features_to_docs` method handles the creation of both document types.
 
-### 4. Loading Documents into a Vector Store
+### 4. Loading Documents into a Vector Store and implementing Semantic Search
 
-While not shown in the provided code, the next step would be to load these documents into a vector store. This typically involves:
-
-1. Generating embeddings for each document.
-2. Storing these embeddings along with the document metadata in a vector database (e.g., Pinecone, Weaviate, or FAISS).
-
-### 5. Implementing the Semantic Search
-
-To implement the search:
-
-1. Convert the user's query into an embedding using the same model used for the documents.
-2. Perform a similarity search in the vector store to find the most relevant documents.
-3. Retrieve the corresponding geospatial data (either individual features or feature collections).
-4. Return the results to the user, possibly with additional context from the document content.
-
-## Code Highlights
-
-Here are some key methods from the provided class:
-
-```python
-async def add_descriptions_to_features(self) -> None:
-    # Fetches and adds descriptions to features
-    ...
-
-def _group_features_by_tag(self) -> Dict[str, List[dict]]:
-    # Groups features by their OSM tag
-    ...
-
-def _convert_to_geojson(self, data):
-    # Converts features to GeoJSON format
-    ...
-
-async def _features_to_docs(self) -> List[Document]:
-    # Creates documents for individual features and feature collections
-    ...
-```
-
-## Considerations
-
-- Performance: The class uses asynchronous methods and semaphores to efficiently fetch tag descriptions.
-- Scalability: Consider chunking large datasets and processing them in batches.
-- Updates: Implement a system to regularly update your vector store as OSM data changes.
-- Query Processing: Develop a robust query understanding system to interpret user intentions (e.g., distinguishing between queries for specific places vs. types of places).
-
-By following these steps and utilizing the provided class, you can create a powerful semantic search system for geospatial data, enabling intuitive and flexible querying of OSM features.
+The final steps are loading the documents into a vector store and using the same embedding model to retrieve documents from the vector store.
+This is completely handled by the [Indexer Class](https://github.com/52North/innovation-prize/blob/6b1ab1c2532eefe30d2e6849ea28ced2e50e49e1/search-app/server/indexing/indexer.py) and is [documented here](https://github.com/simeonwetzel/sdsadocs/blob/main/docs/architecture.md#indexer-class)
