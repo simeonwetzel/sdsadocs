@@ -143,7 +143,7 @@ b. Feature Collection Documents:
 
 The `_features_to_docs` method handles the creation of both document types.
 
-#### 4. Loading Documents into a Vector Store and implementing Semantic Search
+#### 4. Creating Embeddings, Loading Documents into a Vector Store, and implementing Semantic Search
 
-The final steps are loading the documents into a vector store and using the same embedding model to retrieve documents from the vector store.
-This is completely handled by the [Indexer Class](https://github.com/52North/innovation-prize/blob/6b1ab1c2532eefe30d2e6849ea28ced2e50e49e1/search-app/server/indexing/indexer.py) and is [documented here](https://github.com/simeonwetzel/sdsadocs/blob/main/docs/architecture.md#indexer-class)
+The final steps are generating embeddings from the documents, loading these documents into a vector store, and then using the same embedding model to retrieve documents from the vector store. This entire process is managed by the [Indexer Class](https://github.com/52North/innovation-prize/blob/6b1ab1c2532eefe30d2e6849ea28ced2e50e49e1/search-app/server/indexing/indexer.py), which is thoroughly [documented here](https://sdsadocs.readthedocs.io/en/latest/architecture.html#indexer-class).
+
