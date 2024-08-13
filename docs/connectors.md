@@ -135,11 +135,19 @@ a. Individual Feature Documents:
    - Created for features with names (e.g., specific landmarks).
    - Includes the feature name, description, and all properties.
    - Useful for queries about specific places.
+     
+*Example search for a single feature: in this case "Frauenkirche in Dresden"*:
+![image](https://github.com/user-attachments/assets/8d2561ca-23be-471c-ac6d-cd342b8a871d)
+
 
 b. Feature Collection Documents:
    - Groups features by their OSM tag (e.g., all hospitals).
    - Includes a description of the tag and a count of features.
    - Useful for queries about types of places.
+
+*Example search for multiple features based on a similar category: in this case "Hospitals in Dresden*:
+![image](https://github.com/user-attachments/assets/e102bc68-8cf0-4e29-8f8b-8246a1a9753e)
+
 
 The `_features_to_docs` method handles the creation of both document types.
 
