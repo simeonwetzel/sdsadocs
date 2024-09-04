@@ -13,4 +13,3 @@ Welcome to the SDSA documentation!
    overview.md
    setup.md
    architecture.md
-   connectors.md
